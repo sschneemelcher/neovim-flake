@@ -7,18 +7,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:numtide/flake-utils";
     };
-    neovim-flake = {
-      url = "github:neovim/neovim?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     
     # Theme
-    "plugin:onedark-vim" = {
+    "plugin_onedark-vim" = {
       url = "github:joshdick/onedark.vim";
       flake = false;
     };
     # Git
-    "plugin:gitsigns" = {
+    "plugin_gitsigns" = {
       url = "github:lewis6991/gitsigns.nvim";
       flake = false;
     };
@@ -33,7 +29,7 @@
         # use `pkgs.neovimPlugins`, which is a map of our plugins.
         # Each input in the format:
         # ```
-        # "plugin:yourPluginName" = {
+        # "plugin_yourPluginName" = {
         #   url   = "github:exampleAuthor/examplePlugin";
         #   flake = false;
         # };
@@ -48,11 +44,11 @@
             inherit (prev.vimUtils) buildVimPluginFrom2Nix;
             treesitterGrammars = prev.tree-sitter.withPlugins (_: prev.tree-sitter.allGrammars);
             plugins = builtins.filter
-              (s: (builtins.match "plugin:.*" s) != null)
+              (s: (builtins.match "plugin_.*" s) != null)
               (builtins.attrNames inputs);
             plugName = input:
               builtins.substring
-                (builtins.stringLength "plugin:")
+                (builtins.stringLength "plugin_")
                 (builtins.stringLength input)
                 input;
             buildPlug = name: buildVimPluginFrom2Nix {
@@ -83,9 +79,6 @@
           inherit system;
           overlays = [
             pluginOverlay
-            (final: prev: {
-              neovim-unwrapped = inputs.neovim-flake.packages.${prev.system}.neovim;
-            })
           ];
         };
 
@@ -107,12 +100,12 @@
         #          |
         #          | Make sure to add:
         #          | ```
-        #          | "plugin:yourPluginName" = {
+        #          | "plugin_yourPluginName" = {
         #          |   url   = "github:exampleAuthor/examplePlugin";
         #          |   flake = false;
         #          | };
         #          | 
-        #          | "plugin:anotherPluginYouLike" = {
+        #          | "plugin_anotherPluginYouLike" = {
         #          |   url   = "github:exampleAuthor/examplePlugin";
         #          |   flake = false;
         #          | };
