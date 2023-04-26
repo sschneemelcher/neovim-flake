@@ -1,4 +1,3 @@
-lua << EOF
 vim.opt.guicursor = ""
 vim.opt.errorbells = false
 
@@ -146,4 +145,3 @@ require('lualine').setup {
     tabline = {},
     extensions = {}
 }
-EOF

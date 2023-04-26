@@ -157,7 +157,7 @@
 
         packages.customNeovim = neovimBuilder {
           # the next line loads a trivial example of a init.vim:
-          customRC = pkgs.lib.readFile ./init.lua;
+          customRC = pkgs.lib.concatStringsSep "\n" ["lua << EOF" ( pkgs.lib.readFile ./init.lua ) "EOF"];
           # if you wish to only load the onedark-vim colorscheme:
           # start = with pkgs.neovimPlugins; [];
         };
