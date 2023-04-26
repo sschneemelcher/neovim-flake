@@ -9,13 +9,23 @@
     };
     
     # Theme
-    "plugin_onedark-vim" = {
-      url = "github:joshdick/onedark.vim";
+    "plugin_catppuccin" = {
+      url = "github:catppuccin/nvim";
       flake = false;
     };
     # Git
-    "plugin_gitsigns" = {
-      url = "github:lewis6991/gitsigns.nvim";
+    "plugin_gitgutter" = {
+      url = "github:airblade/vim-gitgutter";
+      flake = false;
+    };
+    # Telescope
+    "plugin_telescope" = {
+      url = "github:nvim-telescope/telescope.nvim";
+      flake = false;
+    };
+    # Statusline 
+    "plugin_lualine" = {
+      url = "github:nvim-lualine/lualine.nvim";
       flake = false;
     };
   };
@@ -138,18 +148,18 @@
       in
       rec {
         defaultApp = apps.nvim;
-        defaultPackage = packages.neovimLuca;
+        defaultPackage = packages.customNeovim;
 
         apps.nvim = {
             type = "app";
             program = "${defaultPackage}/bin/nvim";
           };
 
-        packages.neovimLuca = neovimBuilder {
+        packages.customNeovim = neovimBuilder {
           # the next line loads a trivial example of a init.vim:
-          customRC = pkgs.lib.readFile ./init.vim;
+          customRC = pkgs.lib.readFile ./init.lua;
           # if you wish to only load the onedark-vim colorscheme:
-          # start = with pkgs.neovimPlugins; [ onedark-vim ];
+          # start = with pkgs.neovimPlugins; [];
         };
       }
     );
